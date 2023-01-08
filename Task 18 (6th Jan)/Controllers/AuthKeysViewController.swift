@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import CoreData
 
 class AuthKeysViewController: UIViewController {
     
     
     var tableView: UITableView!
     var addButton: UIButton!
+    
+    var emptyTextLabel: UILabel!
+    
+    let coreDataManager: CoreDataHandler = CoreDataHandler.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +25,11 @@ class AuthKeysViewController: UIViewController {
         
         navigationItem.title = "Authkey Manager"
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customCell")
+        
+        AuthModel.authModelList = coreDataManager.fetchDataFromCoreData(dataFetchRequest: AuthModel.fetchRequest())
+    
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,6 +71,16 @@ class AuthKeysViewController: UIViewController {
         ])
     }
     
+    fileprivate func setupEmptyLabelConstraints() {
+        // label constraints
+        
+        NSLayoutConstraint.activate([
+            emptyTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyTextLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10)
+        ])
+    }
+    
     fileprivate func setupOutlets() {
         
         // TABLEVIEW
@@ -76,7 +95,19 @@ class AuthKeysViewController: UIViewController {
         addButton.tintColor = .white
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
+        
+        // LABEL
+        emptyTextLabel = UILabel()
+        emptyTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        emptyTextLabel.text = "Looks like you have not added any codes yet. Try adding some."
+        emptyTextLabel.textColor = .systemMint
+        emptyTextLabel.numberOfLines = 0
+        emptyTextLabel.textAlignment = .center
+        emptyTextLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        
+        
         view.addSubview(tableView)
+        view.addSubview(emptyTextLabel)
         view.addSubview(addButton)
     }
     
@@ -92,13 +123,35 @@ class AuthKeysViewController: UIViewController {
         // ADD BUTTON CONSTRAINTS
         addButtonConstraints()
         
+        // Label Constraints
+        setupEmptyLabelConstraints()
+        
     }
     
     @objc func addButtonTapped() {
         print("ADD BUTTON TAPPED")
         let alertController = UIAlertController(title: "Add code", message: "Enter the title and the code", preferredStyle: .alert)
-        let successAction = UIAlertAction(title: "Add", style: .default) { _ in
+        
+        alertController.addTextField {textField in
+            textField.placeholder = "Add title"
+        }
+        
+        alertController.addTextField {textField in
+            textField.placeholder = "Add code"
+        }
+        
+        let successAction = UIAlertAction(title: "Add", style: .default) {[weak self] _ in
+            
+            
             // ADD
+            guard let self = self, let titleText = alertController.textFields?.first?.text, let codeText = alertController.textFields?[1].text else { return }
+            let authModel = AuthModel(context: CoreDataHandler.coreDataContext)
+            authModel.title = titleText
+            authModel.code = codeText
+            self.coreDataManager.addData(data: authModel)
+            AuthModel.authModelList.append(authModel)
+            self.tableView.reloadData()
+            
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -112,16 +165,38 @@ class AuthKeysViewController: UIViewController {
 
 extension AuthKeysViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        emptyTextLabel.alpha = AuthModel.authModelList.isEmpty ? 1 : 0
+        return AuthModel.authModelList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! CustomTableViewCell
-        cell.titleLabel.text = "Yeet"
-        cell.codeLabel.text = "Yeet 2"
+        
+        let model = AuthModel.authModelList[indexPath.row]
+        
+        cell.titleLabel.text = model.title
+        cell.codeLabel.text = model.code
         return cell
        // UITableViewCell()
     }
     
     
+}
+
+
+extension AuthKeysViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let model = AuthModel.authModelList[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {[weak self] swipeAction, _, _ in
+            guard let self = self else {
+                return
+            }
+            self.coreDataManager.removeData(data: model)
+            AuthModel.authModelList.remove(at: indexPath.row)
+            self.tableView.reloadData()
+            
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }

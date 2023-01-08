@@ -22,5 +22,6 @@ extension AuthModel {
 }
 
 extension AuthModel : Identifiable {
+    static var authModelList: [AuthModel] = []
 
 }

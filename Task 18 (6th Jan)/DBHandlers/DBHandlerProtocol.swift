@@ -9,8 +9,8 @@ import Foundation
 
 // CUSTOM PROTOCOL FOR CONFORMING CRUD OPERATIONS
 protocol DBHandlerProtocol {
-    func addData()
-    func removeData()
-    func updateData()
-    func fetchData()
+    func addData<T>(data: T)
+    func removeData<T>(data: T)
+    func updateData<T>(data: T)
+    func fetchData<T>(data: T) -> T
 }
