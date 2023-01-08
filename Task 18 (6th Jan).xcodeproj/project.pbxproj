@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B405EAD29699388009F465F /* AuthKeysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B405EAC29699388009F465F /* AuthKeysViewController.swift */; };
+		5BB40F042969C55B001015CB /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB40F032969C55B001015CB /* CustomTableViewCell.swift */; };
 		89FA9FDA29682D270041DDCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FD929682D270041DDCB /* AppDelegate.swift */; };
 		89FA9FDC29682D270041DDCB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FDB29682D270041DDCB /* SceneDelegate.swift */; };
 		89FA9FDE29682D270041DDCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FDD29682D270041DDCB /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B405EAC29699388009F465F /* AuthKeysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthKeysViewController.swift; sourceTree = "<group>"; };
+		5BB40F032969C55B001015CB /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		89FA9FD629682D270041DDCB /* Task 18 (6th Jan).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task 18 (6th Jan).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89FA9FD929682D270041DDCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89FA9FDB29682D270041DDCB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +43,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B405EAE296993A7009F465F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5B405EAC29699388009F465F /* AuthKeysViewController.swift */,
+				89FA9FDD29682D270041DDCB /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5BB40F022969C539001015CB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5BB40F032969C55B001015CB /* CustomTableViewCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		89FA9FCD29682D270041DDCB = {
 			isa = PBXGroup;
 			children = (
@@ -60,7 +81,8 @@
 			children = (
 				89FA9FD929682D270041DDCB /* AppDelegate.swift */,
 				89FA9FDB29682D270041DDCB /* SceneDelegate.swift */,
-				89FA9FDD29682D270041DDCB /* ViewController.swift */,
+				5BB40F022969C539001015CB /* Components */,
+				5B405EAE296993A7009F465F /* Controllers */,
 				89FA9FDF29682D270041DDCB /* Main.storyboard */,
 				89FA9FE529682D280041DDCB /* Assets.xcassets */,
 				89FA9FE729682D280041DDCB /* LaunchScreen.storyboard */,
@@ -141,6 +163,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB40F042969C55B001015CB /* CustomTableViewCell.swift in Sources */,
+				5B405EAD29699388009F465F /* AuthKeysViewController.swift in Sources */,
 				89FA9FE429682D270041DDCB /* Task_18__6th_Jan_.xcdatamodeld in Sources */,
 				89FA9FDE29682D270041DDCB /* ViewController.swift in Sources */,
 				89FA9FDA29682D270041DDCB /* AppDelegate.swift in Sources */,
