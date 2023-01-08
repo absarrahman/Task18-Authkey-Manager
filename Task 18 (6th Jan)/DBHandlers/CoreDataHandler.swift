@@ -45,7 +45,7 @@ class CoreDataHandler: DBHandlerProtocol {
     }
     
     func updateData<T>(data: T) {
-        //
+        addData(data: data)
     }
     
     internal func fetchData<T>(data: T) -> T {
