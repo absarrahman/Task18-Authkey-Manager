@@ -15,6 +15,7 @@ class AuthKeysViewController: UIViewController {
     var addButton: UIButton!
     
     var emptyTextLabel: UILabel!
+    var topUIView: UIView!
     
     let coreDataManager: CoreDataHandler = CoreDataHandler.shared
     
@@ -42,7 +43,7 @@ class AuthKeysViewController: UIViewController {
     fileprivate func setupTableViewConstraints() {
         NSLayoutConstraint.activate([
             // TOP CONSTRAINT
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            tableView.topAnchor.constraint(equalTo: topUIView.bottomAnchor),
             
             // LEADING CONSTRAINT
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
@@ -75,10 +76,50 @@ class AuthKeysViewController: UIViewController {
         // label constraints
         
         NSLayoutConstraint.activate([
-            emptyTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyTextLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyTextLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            emptyTextLabel.centerYAnchor.constraint(equalTo: tableView.centerYAnchor),
             emptyTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10)
         ])
+    }
+    
+    fileprivate func setupTopUIViewOutlet() {
+        // TOP UI VIEW
+        topUIView = UIView()
+        topUIView.translatesAutoresizingMaskIntoConstraints = false
+        topUIView.backgroundColor = .systemMint
+        
+        // LABEL
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Hey [Absar]"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        
+        // IMAGE
+        
+        let image = UIImage(systemName: "lock.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .white
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        topUIView.addSubview(imageView)
+        
+        topUIView.addSubview(label)
+        
+        // FOR THE LABEL CONSTRAINT
+        NSLayoutConstraint.activate([
+            // LABEL
+            label.leadingAnchor.constraint(equalTo: topUIView.leadingAnchor,constant: 10),
+            label.centerYAnchor.constraint(equalTo: topUIView.centerYAnchor),
+            imageView.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
+            // IMAGE
+            topUIView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor,constant: 10),
+            imageView.centerYAnchor.constraint(equalTo: topUIView.centerYAnchor),
+            imageView.heightAnchor.constraint(equalTo: topUIView.heightAnchor, multiplier: 0.3),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1)
+        ])
+        
     }
     
     fileprivate func setupOutlets() {
@@ -86,6 +127,7 @@ class AuthKeysViewController: UIViewController {
         // TABLEVIEW
         tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         
         // ADD BUTTON
         addButton = UIButton()
@@ -105,10 +147,27 @@ class AuthKeysViewController: UIViewController {
         emptyTextLabel.textAlignment = .center
         emptyTextLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
+        // TOP UI VIEW outlet
+        setupTopUIViewOutlet()
         
         view.addSubview(tableView)
         view.addSubview(emptyTextLabel)
         view.addSubview(addButton)
+        view.addSubview(topUIView)
+    }
+    
+    fileprivate func setupTopViewConstraints() {
+        // TOP UIView
+        NSLayoutConstraint.activate([
+            // TOP CONSTRAINT
+            topUIView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            // LEADING CONSTRAINT
+            topUIView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            // center x
+            topUIView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            // Height
+            topUIView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
+        ])
     }
     
     override func loadView() {
@@ -125,6 +184,9 @@ class AuthKeysViewController: UIViewController {
         
         // Label Constraints
         setupEmptyLabelConstraints()
+        
+        // TOP view constraints
+        setupTopViewConstraints()
         
     }
     

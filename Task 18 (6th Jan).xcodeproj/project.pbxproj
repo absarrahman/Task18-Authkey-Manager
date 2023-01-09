@@ -13,6 +13,7 @@
 		5B49888A296A937D0000C17A /* DBHandlerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B498889296A937D0000C17A /* DBHandlerProtocol.swift */; };
 		5B49888C296A94080000C17A /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B49888B296A94080000C17A /* CoreDataHandler.swift */; };
 		5BB40F042969C55B001015CB /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB40F032969C55B001015CB /* CustomTableViewCell.swift */; };
+		89C18735296C029D00BDBEEB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C18734296C029D00BDBEEB /* Constants.swift */; };
 		89FA9FDA29682D270041DDCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FD929682D270041DDCB /* AppDelegate.swift */; };
 		89FA9FDC29682D270041DDCB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FDB29682D270041DDCB /* SceneDelegate.swift */; };
 		89FA9FDE29682D270041DDCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FDD29682D270041DDCB /* ViewController.swift */; };
@@ -29,6 +30,7 @@
 		5B498889296A937D0000C17A /* DBHandlerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHandlerProtocol.swift; sourceTree = "<group>"; };
 		5B49888B296A94080000C17A /* CoreDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
 		5BB40F032969C55B001015CB /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		89C18734296C029D00BDBEEB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		89FA9FD629682D270041DDCB /* Task 18 (6th Jan).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task 18 (6th Jan).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89FA9FD929682D270041DDCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89FA9FDB29682D270041DDCB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		89C18733296C028100BDBEEB /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				89C18734296C029D00BDBEEB /* Constants.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		89FA9FCD29682D270041DDCB = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +121,7 @@
 				5B405EAE296993A7009F465F /* Controllers */,
 				5B498888296A93510000C17A /* DBHandlers */,
 				5B498887296A92350000C17A /* Model */,
+				89C18733296C028100BDBEEB /* Utils */,
 				89FA9FDF29682D270041DDCB /* Main.storyboard */,
 				89FA9FE529682D280041DDCB /* Assets.xcassets */,
 				89FA9FE729682D280041DDCB /* LaunchScreen.storyboard */,
@@ -192,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BB40F042969C55B001015CB /* CustomTableViewCell.swift in Sources */,
+				89C18735296C029D00BDBEEB /* Constants.swift in Sources */,
 				5B49888C296A94080000C17A /* CoreDataHandler.swift in Sources */,
 				5B498885296A920E0000C17A /* AuthModel+CoreDataClass.swift in Sources */,
 				5B405EAD29699388009F465F /* AuthKeysViewController.swift in Sources */,

@@ -15,21 +15,49 @@ class ViewController: UIViewController {
     var userTextField: UITextField!
     var passwordTextField: UITextField!
     var signInButton: UIButton!
+    var themeButton: UIButton!
+    var isDark = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        isDark =  UserDefaults.standard.bool(forKey: Constants.UserDefaultKeys.themeKey)
         
+    }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        print(view.window?.overrideUserInterfaceStyle)
+//    }
+    
+    fileprivate func setTheme() {
+        //print(view.window?.overrideUserInterfaceStyle)
+        view.window?.overrideUserInterfaceStyle = isDark ? .dark : .light
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setTheme()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        signInButton.layer.cornerRadius = signInButton.frame.size.height / 2
+        signInButton.layer.cornerRadius = signInButton.frame.size.height / 5
         signInButton.clipsToBounds = true
+        
+        themeButton.layer.cornerRadius = themeButton.frame.size.height / 2
+        themeButton.clipsToBounds = true
     }
     
     @objc func signInButtonTapped() {
         performSegue(withIdentifier: "goToAuthKeys", sender: nil)
+    }
+    
+    @objc func themeButtonTapped() {
+        //
+        isDark = !isDark
+        UserDefaults.standard.set(isDark, forKey: Constants.UserDefaultKeys.themeKey)
+        setTheme()
     }
     
     fileprivate func setupOutlets() {
@@ -48,6 +76,9 @@ class ViewController: UIViewController {
         // BUTTON
         signInButton = UIButton()
         
+        // THEME BUTTON
+        themeButton = UIButton()
+        
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         userTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +88,8 @@ class ViewController: UIViewController {
         passwordTextFieldTopLabel.translatesAutoresizingMaskIntoConstraints = false
         
         signInButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        themeButton.translatesAutoresizingMaskIntoConstraints = false
         
         
         view.addSubview(welcomeLabel)
@@ -68,6 +101,8 @@ class ViewController: UIViewController {
         view.addSubview(passwordTextFieldTopLabel)
         
         view.addSubview(signInButton)
+        
+        view.addSubview(themeButton)
         
         
         
@@ -82,7 +117,7 @@ class ViewController: UIViewController {
         
         // USERNAME TEXTFIELD PROPERTIES
         userTextField.font = .systemFont(ofSize: 14)
-        userTextField.textColor = .black
+        userTextField.textColor = .label
         userTextField.borderStyle = .roundedRect
         
         userTextFieldTopLabel.textColor = .white
@@ -91,7 +126,7 @@ class ViewController: UIViewController {
         
         // PASSWORD TEXTFIELD PROPERTIES
         passwordTextField.font = .systemFont(ofSize: 14)
-        passwordTextField.textColor = .black
+        passwordTextField.textColor = .label
         passwordTextField.borderStyle = .roundedRect
         
         passwordTextFieldTopLabel.textColor = .white
@@ -101,7 +136,15 @@ class ViewController: UIViewController {
         signInButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
         signInButton.setTitle("Sign In", for: .normal)
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        signInButton.tintColor = .label
         
+        
+        // THEME BUTTON
+        themeButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
+        themeButton.tintColor = .white
+        themeButton.setImage(UIImage(systemName: "moon.fill",withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
+
+        themeButton.addTarget(self, action: #selector(themeButtonTapped), for: .touchUpInside)
         
     }
     
@@ -182,10 +225,10 @@ class ViewController: UIViewController {
             // TOP
             signInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
             // width
-            signInButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.09),
+            signInButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.06),
             
             // Height
-            signInButton.widthAnchor.constraint(equalTo: signInButton.heightAnchor, multiplier: 1),
+            signInButton.widthAnchor.constraint(equalTo: signInButton.heightAnchor, multiplier: 1.5),
             
             //center x
             
@@ -209,8 +252,20 @@ class ViewController: UIViewController {
         // password TextFieldConstraints
         setupPasswordTextFieldConstraints()
         
-        // Button Constraints
+        // Sign in Button Constraints
         signInButtonConstraints()
+        
+        // Theme button constraints
+        NSLayoutConstraint.activate([
+            // TOP anchor
+            themeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            // Trailing
+            view.trailingAnchor.constraint(equalTo: themeButton.trailingAnchor, constant: 20),
+            // height
+            themeButton.heightAnchor.constraint(equalTo:view.heightAnchor, multiplier: 0.07),
+            // width
+            themeButton.widthAnchor.constraint(equalTo: themeButton.heightAnchor, multiplier: 1)
+        ])
     }
 
 }
