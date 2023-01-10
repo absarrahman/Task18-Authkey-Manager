@@ -12,11 +12,14 @@ class AddCodeViewController: UIViewController {
     var titleTextField: UITextField!
     var codeTextField: UITextField!
     var addButton: UIButton!
+    var pickerView: UIPickerView!
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        pickerView.delegate = self
+        pickerView.dataSource = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -57,9 +60,14 @@ class AddCodeViewController: UIViewController {
         addButton.tintColor = .white
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
+        pickerView = UIPickerView()
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         view.addSubview(titleTextField)
         view.addSubview(codeTextField)
         view.addSubview(addButton)
+        view.addSubview(pickerView)
         
         NSLayoutConstraint.activate([
             // title
@@ -81,8 +89,35 @@ class AddCodeViewController: UIViewController {
             
             // Height
             addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor, multiplier: 1.5),
+            
+            //picker
+            pickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            pickerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
+            
+            pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            
+            pickerView.bottomAnchor.constraint(equalTo: titleTextField.topAnchor,constant: 10)
         ])
         
     }
     
+}
+
+extension AddCodeViewController : UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        3
+    }
+    
+    
+}
+
+extension AddCodeViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        "Yoo"
+    }
 }
