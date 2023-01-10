@@ -19,6 +19,7 @@
 		893D1C22296D62B300008C4B /* CommonFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D1C21296D62B300008C4B /* CommonFunctions.swift */; };
 		89C18735296C029D00BDBEEB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C18734296C029D00BDBEEB /* Constants.swift */; };
 		89C18737296C090800BDBEEB /* KeychainDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C18736296C090800BDBEEB /* KeychainDataHandler.swift */; };
+		89C72BEC296D8E310048DAC9 /* AddCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C72BEB296D8E310048DAC9 /* AddCodeViewController.swift */; };
 		89FA9FDA29682D270041DDCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FD929682D270041DDCB /* AppDelegate.swift */; };
 		89FA9FDC29682D270041DDCB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FDB29682D270041DDCB /* SceneDelegate.swift */; };
 		89FA9FDE29682D270041DDCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FA9FDD29682D270041DDCB /* ViewController.swift */; };
@@ -41,6 +42,7 @@
 		893D1C21296D62B300008C4B /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
 		89C18734296C029D00BDBEEB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		89C18736296C090800BDBEEB /* KeychainDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDataHandler.swift; sourceTree = "<group>"; };
+		89C72BEB296D8E310048DAC9 /* AddCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCodeViewController.swift; sourceTree = "<group>"; };
 		89FA9FD629682D270041DDCB /* Task 18 (6th Jan).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task 18 (6th Jan).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89FA9FD929682D270041DDCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89FA9FDB29682D270041DDCB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				5B405EAC29699388009F465F /* AuthKeysViewController.swift */,
 				89FA9FDD29682D270041DDCB /* ViewController.swift */,
 				893D1C1D296D58EF00008C4B /* LoginSessionViewController.swift */,
+				89C72BEB296D8E310048DAC9 /* AddCodeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				89C18735296C029D00BDBEEB /* Constants.swift in Sources */,
 				893D1C22296D62B300008C4B /* CommonFunctions.swift in Sources */,
 				5B49888C296A94080000C17A /* CoreDataHandler.swift in Sources */,
+				89C72BEC296D8E310048DAC9 /* AddCodeViewController.swift in Sources */,
 				5B498885296A920E0000C17A /* AuthModel+CoreDataClass.swift in Sources */,
 				893D1C20296D5FF100008C4B /* PlistHandler.swift in Sources */,
 				5B405EAD29699388009F465F /* AuthKeysViewController.swift in Sources */,

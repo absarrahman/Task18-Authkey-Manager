@@ -40,6 +40,7 @@
                     <navigationItem key="navigationItem" id="Av1-Lh-NXY"/>
                     <connections>
                         <segue destination="4hz-9D-d0E" kind="show" identifier="goToLoginSession" id="Jm3-2e-dYH"/>
+                        <segue destination="ekz-OW-gfb" kind="show" identifier="goToAddVC" id="HFV-RE-JP6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nZR-VS-sIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -60,7 +61,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OkU-oH-rEb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3077" y="-11"/>
+            <point key="canvasLocation" x="3074" y="-285"/>
+        </scene>
+        <!--Add Code View Controller-->
+        <scene sceneID="GR3-3T-sk0">
+            <objects>
+                <viewController id="ekz-OW-gfb" customClass="AddCodeViewController" customModule="Task_18__6th_Jan_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dSI-eA-SBZ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Z6z-Tp-7qe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="3rP-Dn-Asp"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gjD-lX-UEa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3073" y="447"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="imt-WF-RO3">

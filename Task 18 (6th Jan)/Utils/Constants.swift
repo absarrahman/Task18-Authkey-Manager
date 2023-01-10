@@ -18,6 +18,7 @@ class Constants {
         private init(){}
         static let goToAuthKeys = "goToAuthKeys"
         static let goToLoginSession =  "goToLoginSession"
+        static let goToAddVC = "goToAddVC"
     }
     class DBEntityConstants {
         static let entityName = "AuthModel"

@@ -248,36 +248,37 @@ class AuthKeysViewController: UIViewController {
     }
     
     @objc func addButtonTapped() {
-        print("ADD BUTTON TAPPED")
-        let alertController = UIAlertController(title: "Add code", message: "Enter the title and the code", preferredStyle: .alert)
-        
-        alertController.addTextField {textField in
-            textField.placeholder = "Add title"
-        }
-        
-        alertController.addTextField {textField in
-            textField.placeholder = "Add code"
-        }
-        
-        let successAction = UIAlertAction(title: "Add", style: .default) {[weak self] _ in
-            
-            
-            // ADD
-            guard let self = self, let titleText = alertController.textFields?.first?.text, let codeText = alertController.textFields?[1].text else { return }
-            let authModel = AuthModel(context: CoreDataHandler.coreDataContext)
-            authModel.title = titleText
-            authModel.code = codeText
-            self.coreDataManager.addData(data: authModel)
-            AuthModel.authModelList.append(authModel)
-            self.tableView.reloadData()
-            
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alertController.addAction(successAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true)
+//        print("ADD BUTTON TAPPED")
+//        let alertController = UIAlertController(title: "Add code", message: "Enter the title and the code", preferredStyle: .alert)
+//
+//        alertController.addTextField {textField in
+//            textField.placeholder = "Add title"
+//        }
+//
+//        alertController.addTextField {textField in
+//            textField.placeholder = "Add code"
+//        }
+//
+//        let successAction = UIAlertAction(title: "Add", style: .default) {[weak self] _ in
+//
+//
+//            // ADD
+//            guard let self = self, let titleText = alertController.textFields?.first?.text, let codeText = alertController.textFields?[1].text else { return }
+//            let authModel = AuthModel(context: CoreDataHandler.coreDataContext)
+//            authModel.title = titleText
+//            authModel.code = codeText
+//            self.coreDataManager.addData(data: authModel)
+//            AuthModel.authModelList.append(authModel)
+//            self.tableView.reloadData()
+//
+//        }
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+//
+//        alertController.addAction(successAction)
+//        alertController.addAction(cancelAction)
+//        present(alertController, animated: true)
+        performSegue(withIdentifier: Constants.RoutesConstants.goToAddVC, sender: nil)
     }
     
     @objc func loginSessionTable() {
