@@ -24,6 +24,13 @@ class CustomTableViewCell: UITableViewCell {
         return label
     }()
     
+    let typeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemYellow
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     
     
@@ -36,6 +43,7 @@ class CustomTableViewCell: UITableViewCell {
         
         view.addSubview(titleLabel)
         view.addSubview(codeLabel)
+        view.addSubview(typeLabel)
         contentView.addSubview(view)
         
         
@@ -44,7 +52,7 @@ class CustomTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            view.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10)
+            typeLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10)
             //label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
         
@@ -55,6 +63,12 @@ class CustomTableViewCell: UITableViewCell {
             codeLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             //codeLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 10),
             view.bottomAnchor.constraint(equalTo: codeLabel.bottomAnchor, constant: 10)
+        ])
+        
+        // Type label
+        NSLayoutConstraint.activate([
+            typeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            view.trailingAnchor.constraint(equalTo: typeLabel.trailingAnchor,constant: 10)
         ])
         
         NSLayoutConstraint.activate([

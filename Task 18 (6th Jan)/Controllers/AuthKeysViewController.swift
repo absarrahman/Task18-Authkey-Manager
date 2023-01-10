@@ -57,6 +57,11 @@ class AuthKeysViewController: UIViewController {
         addButton.clipsToBounds = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+    }
+    
     
     fileprivate func setupTableViewConstraints() {
         NSLayoutConstraint.activate([
@@ -301,6 +306,7 @@ extension AuthKeysViewController : UITableViewDataSource {
         
         cell.titleLabel.text = model.title
         cell.codeLabel.text = model.code
+        cell.typeLabel.text = "Heheh"
         return cell
        // UITableViewCell()
     }
