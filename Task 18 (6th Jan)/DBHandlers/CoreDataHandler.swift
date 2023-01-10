@@ -57,10 +57,17 @@ class CoreDataHandler: DBHandlerProtocol {
         return data
     }
     
-    func fetchDataFromCoreData<T>(dataFetchRequest: NSFetchRequest<T>) -> [T] {
+    func fetchDataFromCoreData<T:NSManagedObject>(type: T.Type,entityName: String, field: String = "") -> [T] {
         var dataModel: [T] = []
         do {
-            dataModel = try CoreDataHandler.context.fetch(dataFetchRequest)
+            let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+            
+            if (!field.isEmpty) {
+                let predicate = NSPredicate(format: "title contains[cd] %@", field)
+                fetchRequest.predicate = predicate
+            }
+            
+            dataModel = try CoreDataHandler.context.fetch(fetchRequest)
         } catch {
             print("Error occurred while fetching \(error)")
         }

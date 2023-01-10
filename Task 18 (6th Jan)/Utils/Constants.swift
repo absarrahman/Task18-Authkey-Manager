@@ -12,5 +12,14 @@ class Constants {
     class UserDefaultKeys {
         private init(){}
         static let themeKey = "themeKey"
+        static let loggedInKey = "loggedInKey"
+    }
+    class RoutesConstants {
+        private init(){}
+        static let goToAuthKeys = "goToAuthKeys"
+        static let goToLoginSession =  "goToLoginSession"
+    }
+    class DBEntityConstants {
+        static let entityName = "AuthModel"
     }
 }

@@ -9,10 +9,10 @@ import Foundation
 
 
 class KeychainDataHandler {
-    func writeToKeychain(pass: String) {
+    static func writeToKeychain(account: String, service: String, pass: String) {
         
-        let account = "absarrahman"
-        let service = "password"
+        let account = account
+        let service = service
         
         guard let data = try? JSONEncoder().encode(pass) else {
             return
@@ -24,13 +24,13 @@ class KeychainDataHandler {
             kSecAttrService: service,
             kSecValueData: data
         ] as CFDictionary
-    
+        
         SecItemAdd(query, nil)
     }
     
     
-    func readFromKeyChain(account: String, service: String) ->  String {
-    
+    static func readFromKeyChain(account: String, service: String) ->  String? {
+        
         let query = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrAccount: account,
@@ -44,19 +44,20 @@ class KeychainDataHandler {
         
         if status == errSecSuccess {
             if let result = result as? [CFString : Any] {
-                print(result[kSecValueData])
-                print(result[kSecAttrAccount])
-                print(result[kSecAttrService])
+                //                print(result[kSecValueData])
+                //                print(result[kSecAttrAccount])
+                //                print(result[kSecAttrService])
                 
                 if let data = result[kSecValueData] as? Data {
                     let password = try? JSONDecoder().decode(String.self, from: data)
                     print(password)
+                    return password
                 }
             }
         } else {
             print(status)
+            return nil
         }
-        return ""
-
+        return nil
     }
 }

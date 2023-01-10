@@ -38,10 +38,29 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Av1-Lh-NXY"/>
+                    <connections>
+                        <segue destination="4hz-9D-d0E" kind="show" identifier="goToLoginSession" id="Jm3-2e-dYH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nZR-VS-sIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2060.3053435114502" y="-20.422535211267608"/>
+        </scene>
+        <!--Login Session View Controller-->
+        <scene sceneID="eMe-ua-ufE">
+            <objects>
+                <viewController id="4hz-9D-d0E" customClass="LoginSessionViewController" customModule="Task_18__6th_Jan_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wcZ-qk-HPO">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="oNi-JL-X26"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="tAd-rS-r2r"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OkU-oH-rEb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3077" y="-11"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="imt-WF-RO3">

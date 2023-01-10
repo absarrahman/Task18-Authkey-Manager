@@ -16,20 +16,38 @@ class AuthKeysViewController: UIViewController {
     
     var emptyTextLabel: UILabel!
     var topUIView: UIView!
+    var searchField: UITextField!
     
     let coreDataManager: CoreDataHandler = CoreDataHandler.shared
+    
+    var loggedInSessionData : [String:Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        if let fetchedData = PlistHandler.readFromPlist() {
+            loggedInSessionData = fetchedData
+        }
+        print("\(loggedInSessionData) line 31")
+        let currentSession = CommonFunctions.getCurrentTime()
+        loggedInSessionData[currentSession.0] = currentSession.1
+        print("\(loggedInSessionData) line 34")
+        PlistHandler.writeToPlist(with: loggedInSessionData)
         
+        let leftButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutTapped))
+        
+        let rightButton = UIBarButtonItem(title: "Login time", style: .plain, target: self, action: #selector(loginSessionTable))
+        
+        self.navigationItem.leftBarButtonItem = leftButton
+        self.navigationItem.rightBarButtonItem = rightButton
         navigationItem.title = "Authkey Manager"
         tableView.dataSource = self
         tableView.delegate = self
+        searchField.delegate = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customCell")
         
-        AuthModel.authModelList = coreDataManager.fetchDataFromCoreData(dataFetchRequest: AuthModel.fetchRequest())
+        AuthModel.authModelList = coreDataManager.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.entityName)
     
     }
     
@@ -43,7 +61,7 @@ class AuthKeysViewController: UIViewController {
     fileprivate func setupTableViewConstraints() {
         NSLayoutConstraint.activate([
             // TOP CONSTRAINT
-            tableView.topAnchor.constraint(equalTo: topUIView.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: searchField.bottomAnchor),
             
             // LEADING CONSTRAINT
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
@@ -141,7 +159,7 @@ class AuthKeysViewController: UIViewController {
         // LABEL
         emptyTextLabel = UILabel()
         emptyTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        emptyTextLabel.text = "Looks like you have not added any codes yet. Try adding some."
+        emptyTextLabel.text = "No data available"
         emptyTextLabel.textColor = .systemMint
         emptyTextLabel.numberOfLines = 0
         emptyTextLabel.textAlignment = .center
@@ -150,10 +168,19 @@ class AuthKeysViewController: UIViewController {
         // TOP UI VIEW outlet
         setupTopUIViewOutlet()
         
+        //TEXTFIELD
+        searchField = UITextField()
+        searchField.translatesAutoresizingMaskIntoConstraints = false
+        searchField.backgroundColor = UIColor(named: "SearchFieldBackgroundColor")
+        searchField.borderStyle = .roundedRect
+        searchField.autocorrectionType = .no
+        searchField.autocapitalizationType = .none
+        
         view.addSubview(tableView)
         view.addSubview(emptyTextLabel)
         view.addSubview(addButton)
         view.addSubview(topUIView)
+        view.addSubview(searchField)
     }
     
     fileprivate func setupTopViewConstraints() {
@@ -167,6 +194,14 @@ class AuthKeysViewController: UIViewController {
             topUIView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             // Height
             topUIView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
+        ])
+    }
+    
+    fileprivate func setupSearchField() {
+        NSLayoutConstraint.activate([
+            searchField.topAnchor.constraint(equalTo: topUIView.bottomAnchor,constant: 10),
+            searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            searchField.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -188,6 +223,28 @@ class AuthKeysViewController: UIViewController {
         // TOP view constraints
         setupTopViewConstraints()
         
+        //SEARCH FIELD CONSTRAINTS
+        setupSearchField()
+        
+    }
+    
+    @objc func logoutTapped() {
+        print("YEEET")
+        let alertController = UIAlertController(title: "Do you want to logout", message: "Click yes to confirm", preferredStyle: .alert)
+        
+        
+        let saveAction = UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     @objc func addButtonTapped() {
@@ -221,6 +278,11 @@ class AuthKeysViewController: UIViewController {
         alertController.addAction(successAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
+    }
+    
+    @objc func loginSessionTable() {
+        // NAVIGATE TO LOGIN SESSION TABLE
+        performSegue(withIdentifier: Constants.RoutesConstants.goToLoginSession, sender: nil)
     }
 
 }
@@ -294,5 +356,13 @@ extension AuthKeysViewController : UITableViewDelegate {
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension AuthKeysViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        AuthModel.authModelList = CoreDataHandler.shared.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.entityName,field: textField.text ?? "")
+        tableView.reloadData()
+        return true
     }
 }

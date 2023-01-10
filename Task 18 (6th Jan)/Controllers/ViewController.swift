@@ -18,17 +18,22 @@ class ViewController: UIViewController {
     var themeButton: UIButton!
     var isDark = false
     
+    var isLoggedIn = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        isDark =  UserDefaults.standard.bool(forKey: Constants.UserDefaultKeys.themeKey)
+        //isDark =  UserDefaults.standard.bool(forKey: Constants.UserDefaultKeys.themeKey)
+        isDark = UserDefaultsHandler.fetchBoolData(for: Constants.UserDefaultKeys.themeKey)
+        isLoggedIn = UserDefaultsHandler.fetchBoolData(for: Constants.UserDefaultKeys.loggedInKey)
+        KeychainDataHandler.writeToKeychain(account: "absarrahman", service: "password", pass: "123456789")
         
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        print(view.window?.overrideUserInterfaceStyle)
-//    }
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        super.viewWillAppear(animated)
+    //        print(view.window?.overrideUserInterfaceStyle)
+    //    }
     
     fileprivate func setTheme() {
         //print(view.window?.overrideUserInterfaceStyle)
@@ -38,7 +43,19 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setTheme()
+        if (isLoggedIn) {
+            performSegue(withIdentifier: Constants.RoutesConstants.goToAuthKeys, sender: nil)
+        }
+        userTextField.text = ""
+        passwordTextField.text = ""
     }
+    
+    //    override func viewDidDisappear(_ animated: Bool) {
+    //        super.viewDidDisappear(animated)
+    //        guard let viewControllers = navigationController?.viewControllers,
+    //              let index = viewControllers.firstIndex(of: self) else { return }
+    //        navigationController?.viewControllers.remove(at: index)
+    //    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -50,13 +67,40 @@ class ViewController: UIViewController {
     }
     
     @objc func signInButtonTapped() {
-        performSegue(withIdentifier: "goToAuthKeys", sender: nil)
+        guard let checkPassword = KeychainDataHandler.readFromKeyChain(account: "absarrahman", service: "password") else {
+            let alertController = UIAlertController(title: "Wrong password", message: "Try again", preferredStyle: .alert)
+            
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true)
+            return
+            
+        }
+        if userTextField.text == "absarrahman" && passwordTextField.text == checkPassword {
+            isLoggedIn = !isLoggedIn
+            UserDefaultsHandler.setDefaultData(for: Constants.UserDefaultKeys.loggedInKey, with: isLoggedIn)
+            performSegue(withIdentifier: "goToAuthKeys", sender: nil)
+        } else {
+            let alertController = UIAlertController(title: "Wrong password", message: "Try again", preferredStyle: .alert)
+            
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true)
+        }
+        
     }
     
     @objc func themeButtonTapped() {
         //
         isDark = !isDark
-        UserDefaults.standard.set(isDark, forKey: Constants.UserDefaultKeys.themeKey)
+        //UserDefaults.standard.set(isDark, forKey: Constants.UserDefaultKeys.themeKey)
+        UserDefaultsHandler.setDefaultData(for: Constants.UserDefaultKeys.themeKey, with: isDark)
         setTheme()
     }
     
@@ -122,6 +166,8 @@ class ViewController: UIViewController {
         
         userTextFieldTopLabel.textColor = .white
         userTextFieldTopLabel.text = "Username"
+        userTextField.autocapitalizationType = .none
+        userTextField.autocorrectionType = .no
         
         
         // PASSWORD TEXTFIELD PROPERTIES
@@ -131,6 +177,9 @@ class ViewController: UIViewController {
         
         passwordTextFieldTopLabel.textColor = .white
         passwordTextFieldTopLabel.text = "Password"
+        passwordTextField.autocorrectionType = .no
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.isSecureTextEntry = true
         
         // SIGN IN BUTTON
         signInButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
@@ -143,7 +192,7 @@ class ViewController: UIViewController {
         themeButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
         themeButton.tintColor = .white
         themeButton.setImage(UIImage(systemName: "moon.fill",withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
-
+        
         themeButton.addTarget(self, action: #selector(themeButtonTapped), for: .touchUpInside)
         
     }
@@ -267,6 +316,6 @@ class ViewController: UIViewController {
             themeButton.widthAnchor.constraint(equalTo: themeButton.heightAnchor, multiplier: 1)
         ])
     }
-
+    
 }
 
