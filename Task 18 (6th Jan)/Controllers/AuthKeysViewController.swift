@@ -17,6 +17,14 @@ class AuthKeysViewController: UIViewController {
     var emptyTextLabel: UILabel!
     var topUIView: UIView!
     var searchField: UITextField!
+    var stackView: UIStackView!
+    
+    var gameFilterButton: UIButton!
+    var workFilterButton: UIButton!
+    var otherFilterButton: UIButton!
+    var clearFilterButton: UIButton!
+    
+    var selectedFilterType = "" // Empty means no filter
     
     let coreDataManager: CoreDataHandler = CoreDataHandler.shared
     
@@ -66,7 +74,7 @@ class AuthKeysViewController: UIViewController {
     fileprivate func setupTableViewConstraints() {
         NSLayoutConstraint.activate([
             // TOP CONSTRAINT
-            tableView.topAnchor.constraint(equalTo: searchField.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
             
             // LEADING CONSTRAINT
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
@@ -114,7 +122,7 @@ class AuthKeysViewController: UIViewController {
         // LABEL
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hey [Absar]"
+        label.text = "Hey Absar"
         label.textColor = .white
         label.font = .systemFont(ofSize: 25, weight: .bold)
         
@@ -181,9 +189,50 @@ class AuthKeysViewController: UIViewController {
         searchField.autocorrectionType = .no
         searchField.autocapitalizationType = .none
         
+        // STACKVIEW
+        stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 8
+       
+        
+        // FILTER BUTTONS
+        gameFilterButton = UIButton()
+        gameFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        gameFilterButton.setTitle("Game", for: .normal)
+        gameFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
+        gameFilterButton.tintColor = .label
+        
+        workFilterButton = UIButton()
+        workFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        workFilterButton.setTitle("Work", for: .normal)
+        workFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
+        workFilterButton.tintColor = .label
+        
+        otherFilterButton = UIButton()
+        otherFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        otherFilterButton.setTitle("Others", for: .normal)
+        otherFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
+        otherFilterButton.tintColor = .label
+        
+        clearFilterButton = UIButton()
+        clearFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        clearFilterButton.setTitle("Clear", for: .normal)
+        clearFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
+        clearFilterButton.tintColor = .label
+        
+        
+        stackView.addArrangedSubview(gameFilterButton)
+        stackView.addArrangedSubview(workFilterButton)
+        stackView.addArrangedSubview(otherFilterButton)
+        stackView.addArrangedSubview(clearFilterButton)
+        
         view.addSubview(tableView)
         view.addSubview(emptyTextLabel)
         view.addSubview(addButton)
+        view.addSubview(stackView)
         view.addSubview(topUIView)
         view.addSubview(searchField)
     }
@@ -202,11 +251,22 @@ class AuthKeysViewController: UIViewController {
         ])
     }
     
-    fileprivate func setupSearchField() {
+    fileprivate func setupSearchFieldConstraints() {
         NSLayoutConstraint.activate([
             searchField.topAnchor.constraint(equalTo: topUIView.bottomAnchor,constant: 10),
             searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             searchField.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    fileprivate func setupButtonStackConstraints() {
+        // stack view
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: searchField.bottomAnchor,constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
+            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
         ])
     }
     
@@ -229,7 +289,10 @@ class AuthKeysViewController: UIViewController {
         setupTopViewConstraints()
         
         //SEARCH FIELD CONSTRAINTS
-        setupSearchField()
+        setupSearchFieldConstraints()
+        
+        // Button stack view
+        setupButtonStackConstraints()
         
     }
     
