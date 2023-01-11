@@ -21,6 +21,7 @@ class Constants {
         static let goToAddVC = "goToAddVC"
     }
     class DBEntityConstants {
-        static let entityName = "AuthModel"
+        static let authEntityName = "AuthModel"
+        static let codeTypeEntityName = "CodeTypeModel"
     }
 }

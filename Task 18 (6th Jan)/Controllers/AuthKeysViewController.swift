@@ -45,7 +45,7 @@ class AuthKeysViewController: UIViewController {
         
         let leftButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutTapped))
         
-        let rightButton = UIBarButtonItem(title: "Login time", style: .plain, target: self, action: #selector(loginSessionTable))
+        let rightButton = UIBarButtonItem(title: "Login time", style: .plain, target: self, action: #selector(loginSessionTableTapped))
         
         self.navigationItem.leftBarButtonItem = leftButton
         self.navigationItem.rightBarButtonItem = rightButton
@@ -55,7 +55,7 @@ class AuthKeysViewController: UIViewController {
         searchField.delegate = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customCell")
         
-        AuthModel.authModelList = coreDataManager.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.entityName)
+        AuthModel.authModelList = coreDataManager.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.authEntityName)
     
     }
     
@@ -195,7 +195,7 @@ class AuthKeysViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.spacing = 8
+        stackView.spacing = 20
        
         
         // FILTER BUTTONS
@@ -204,24 +204,28 @@ class AuthKeysViewController: UIViewController {
         gameFilterButton.setTitle("Game", for: .normal)
         gameFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
         gameFilterButton.tintColor = .label
+        gameFilterButton.addTarget(self, action: #selector(fetchButtonTapped), for: .touchUpInside)
         
         workFilterButton = UIButton()
         workFilterButton.translatesAutoresizingMaskIntoConstraints = false
         workFilterButton.setTitle("Work", for: .normal)
         workFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
         workFilterButton.tintColor = .label
+        workFilterButton.addTarget(self, action: #selector(fetchButtonTapped), for: .touchUpInside)
         
         otherFilterButton = UIButton()
         otherFilterButton.translatesAutoresizingMaskIntoConstraints = false
         otherFilterButton.setTitle("Others", for: .normal)
         otherFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
         otherFilterButton.tintColor = .label
+        otherFilterButton.addTarget(self, action: #selector(fetchButtonTapped), for: .touchUpInside)
         
         clearFilterButton = UIButton()
         clearFilterButton.translatesAutoresizingMaskIntoConstraints = false
         clearFilterButton.setTitle("Clear", for: .normal)
         clearFilterButton.backgroundColor = UIColor(named: "PrimaryButtonColor")
         clearFilterButton.tintColor = .label
+        clearFilterButton.addTarget(self, action: #selector(fetchButtonTapped), for: .touchUpInside)
         
         
         stackView.addArrangedSubview(gameFilterButton)
@@ -266,6 +270,7 @@ class AuthKeysViewController: UIViewController {
             stackView.topAnchor.constraint(equalTo: searchField.bottomAnchor,constant: 10),
             stackView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
+            //stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0),
             stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
         ])
     }
@@ -349,9 +354,26 @@ class AuthKeysViewController: UIViewController {
         performSegue(withIdentifier: Constants.RoutesConstants.goToAddVC, sender: nil)
     }
     
-    @objc func loginSessionTable() {
+    @objc func loginSessionTableTapped() {
         // NAVIGATE TO LOGIN SESSION TABLE
         performSegue(withIdentifier: Constants.RoutesConstants.goToLoginSession, sender: nil)
+    }
+    
+    @objc func fetchButtonTapped(_ button: UIButton)  {
+//        print((CoreDataHandler.shared.fetchChildDataFromCoreData(type: CodeTypeModel.self, entityName: "CodeTypeModel",field: button.titleLabel?.text ?? "")[0].authModels?.allObjects as? [AuthModel])![0].title)
+        if (button.titleLabel?.text == "Clear") {
+            AuthModel.authModelList = CoreDataHandler.shared.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.authEntityName,field: searchField.text ?? "")
+        } else {
+            print(button.titleLabel?.text)
+            if let modelList = CoreDataHandler.shared.fetchChildDataFromCoreData(type: CodeTypeModel.self, entityName: Constants.DBEntityConstants.codeTypeEntityName,field: button.titleLabel?.text?.lowercased() ?? "").first?.authModels?.allObjects as? [AuthModel] {
+                AuthModel.authModelList = modelList
+                print(AuthModel.authModelList.count)
+            } else {
+                AuthModel.authModelList = []
+            }
+//            AuthModel.authModelList = CoreDataHandler.shared.fetchChildDataFromCoreData(type: CodeTypeModel.self, entityName: Constants.DBEntityConstants.codeTypeEntityName,field: button.titleLabel?.text?.lowercased() ?? "")[0].authModels?.allObjects as? [AuthModel] ?? []
+        }
+        tableView.reloadData()
     }
 
 }
@@ -430,9 +452,8 @@ extension AuthKeysViewController : UITableViewDelegate {
 }
 
 extension AuthKeysViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        AuthModel.authModelList = CoreDataHandler.shared.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.entityName,field: textField.text ?? "")
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        AuthModel.authModelList = CoreDataHandler.shared.fetchDataFromCoreData(type: AuthModel.self, entityName: Constants.DBEntityConstants.authEntityName,field: textField.text ?? "")
         tableView.reloadData()
-        return true
     }
 }

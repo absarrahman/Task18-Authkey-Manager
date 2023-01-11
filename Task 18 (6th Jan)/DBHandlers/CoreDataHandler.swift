@@ -73,4 +73,22 @@ class CoreDataHandler: DBHandlerProtocol {
         }
         return dataModel
     }
+    
+    func fetchChildDataFromCoreData<T:NSManagedObject>(type: T.Type,entityName: String, field: String = "") -> [T] {
+        print(field)
+        var dataModel: [T] = []
+        do {
+            let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+            
+            if (!field.isEmpty) {
+                let predicate = NSPredicate(format: "typeName ==[cd] %@", field)
+                fetchRequest.predicate = predicate
+            }
+            
+            dataModel = try CoreDataHandler.context.fetch(fetchRequest)
+        } catch {
+            print("Error occurred while fetching \(error)")
+        }
+        return dataModel
+    }
 }
