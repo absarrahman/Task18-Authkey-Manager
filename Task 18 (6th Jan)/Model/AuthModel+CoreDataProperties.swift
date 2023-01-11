@@ -2,7 +2,7 @@
 //  AuthModel+CoreDataProperties.swift
 //  Task 18 (6th Jan)
 //
-//  Created by Moh. Absar Rahman on 8/1/23.
+//  Created by BJIT  on 11/1/23.
 //
 //
 
@@ -18,10 +18,10 @@ extension AuthModel {
 
     @NSManaged public var code: String?
     @NSManaged public var title: String?
+    @NSManaged public var codeType: CodeTypeModel?
 
 }
 
 extension AuthModel : Identifiable {
-    static var authModelList: [AuthModel] = []
-
+    static var authModelList:[AuthModel] = []
 }

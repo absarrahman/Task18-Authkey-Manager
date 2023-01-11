@@ -306,7 +306,7 @@ extension AuthKeysViewController : UITableViewDataSource {
         
         cell.titleLabel.text = model.title
         cell.codeLabel.text = model.code
-        cell.typeLabel.text = "Heheh"
+        cell.typeLabel.text = model.codeType?.typeName?.capitalized ?? "N/A"
         return cell
        // UITableViewCell()
     }

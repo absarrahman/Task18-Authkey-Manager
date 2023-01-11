@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum CodeType: String, CaseIterable {
+    case game, work, others
+}
+
 class AddCodeViewController: UIViewController {
     
     var titleTextField: UITextField!
@@ -32,6 +36,9 @@ class AddCodeViewController: UIViewController {
         let authModel = AuthModel(context: CoreDataHandler.coreDataContext)
         authModel.title = titleTextField.text
         authModel.code = codeTextField.text
+        let codeType = CodeTypeModel(context: CoreDataHandler.coreDataContext)
+        codeType.typeName = CodeType.allCases[pickerView.selectedRow(inComponent: 0)].rawValue
+        authModel.codeType = codeType
         CoreDataHandler.shared.addData(data: authModel)
         AuthModel.authModelList.append(authModel)
         navigationController?.popViewController(animated: true)
@@ -63,11 +70,19 @@ class AddCodeViewController: UIViewController {
         pickerView = UIPickerView()
         pickerView.translatesAutoresizingMaskIntoConstraints = false
         
+        let topLabel = UILabel()
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.textColor = .label
+        topLabel.text = "Add some codes"
+        topLabel.textAlignment = .center
+        topLabel.font = .systemFont(ofSize: 25, weight: .bold)
+        
         
         view.addSubview(titleTextField)
         view.addSubview(codeTextField)
         view.addSubview(addButton)
         view.addSubview(pickerView)
+        view.addSubview(topLabel)
         
         NSLayoutConstraint.activate([
             // title
@@ -97,7 +112,11 @@ class AddCodeViewController: UIViewController {
             
             pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             
-            pickerView.bottomAnchor.constraint(equalTo: titleTextField.topAnchor,constant: 10)
+            pickerView.bottomAnchor.constraint(equalTo: titleTextField.topAnchor,constant: 10),
+            
+            // top label
+            topLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            topLabel.bottomAnchor.constraint(equalTo: pickerView.topAnchor, constant: 20)
         ])
         
     }
@@ -110,7 +129,7 @@ extension AddCodeViewController : UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        3
+        CodeType.allCases.count
     }
     
     
@@ -118,6 +137,6 @@ extension AddCodeViewController : UIPickerViewDataSource {
 
 extension AddCodeViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        "Yoo"
+        CodeType.allCases[row].rawValue.capitalized
     }
 }

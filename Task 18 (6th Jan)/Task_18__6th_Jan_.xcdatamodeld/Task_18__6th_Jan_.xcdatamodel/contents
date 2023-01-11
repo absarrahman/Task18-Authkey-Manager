@@ -3,5 +3,10 @@
     <entity name="AuthModel" representedClassName="AuthModel" syncable="YES">
         <attribute name="code" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="codeType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CodeTypeModel" inverseName="authModels" inverseEntity="CodeTypeModel"/>
+    </entity>
+    <entity name="CodeTypeModel" representedClassName="CodeTypeModel" syncable="YES">
+        <attribute name="typeName" optional="YES" attributeType="String"/>
+        <relationship name="authModels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AuthModel" inverseName="codeType" inverseEntity="AuthModel"/>
     </entity>
 </model>
