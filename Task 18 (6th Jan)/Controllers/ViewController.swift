@@ -43,6 +43,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setTheme()
+        isLoggedIn = UserDefaultsHandler.fetchBoolData(for: Constants.UserDefaultKeys.loggedInKey)
         if (isLoggedIn) {
             performSegue(withIdentifier: Constants.RoutesConstants.goToAuthKeys, sender: nil)
         }

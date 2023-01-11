@@ -310,7 +310,9 @@ class AuthKeysViewController: UIViewController {
             guard let self = self else {
                 return
             }
+            UserDefaultsHandler.setDefaultData(for:Constants.UserDefaultKeys.loggedInKey , with: false)
             self.navigationController?.popViewController(animated: true)
+            
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
